@@ -117,8 +117,46 @@ public class Main {
         return root1.mValue == root2.mValue && areTreesEqual(root1.mLeft, root2.mLeft) && areTreesEqual(root1.mRight, root2.mRight);
     }
 
-   
-    
+    @Override
+    public int hashCode() {
+        if (mRoot == null) {
+            return 0;
+        }
+        LinkedList<Node> nodes = new LinkedList<Main.Node>();
+        nodes.add(mRoot);
+        int res = 17;
+        while (!nodes.isEmpty()) {
+            Node head = nodes.remove();
+            res = 31 * res + head.hashCode();
+            if (head.mLeft != null) {
+                nodes.addLast(head.mLeft);
+            }
+            if (head.mRight != null) {
+                nodes.addLast(head.mRight);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        if (mRoot == null) {
+            return "[]";
+        }
+        StringBuilder builder = new StringBuilder("[");
+        inOrderPrint(mRoot, builder);
+        builder.setLength(builder.length() - 2);
+        builder.append("]");
+        return builder.toString();
+    }
+
+    private void inOrderPrint(Node root, StringBuilder builder) {
+        if (root != null) {
+            inOrderPrint(root.mLeft, builder);
+            builder.append(root + ", ");
+            inOrderPrint(root.mRight, builder);
+        }
+    }
 
     static class Node {
 
